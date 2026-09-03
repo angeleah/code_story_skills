@@ -6,10 +6,10 @@ The flagship skill, **`code-story-tell`**, hands the whole tracing loop to your 
 
 Each agent has its own conventions, so this repo keeps a version per agent:
 
-| Agent           | Location                                             | Install target    |
-| --------------- | ---------------------------------------------------- | ----------------- |
-| **Claude Code** | [`claude/code-story-tell/`](claude/code-story-tell/) | `.claude/skills/` |
-| **Codex**       | [`codex/`](codex/)                                   | _(coming soon)_   |
+| Agent           | Location                                             | Install target     |
+| --------------- | ---------------------------------------------------- | ------------------ |
+| **Claude Code** | [`claude/code-story-tell/`](claude/code-story-tell/) | `.claude/skills/`  |
+| **Codex**       | [`codex/code-story-tell/`](codex/code-story-tell/)   | `~/.codex/skills/` |
 
 ## Prerequisite
 
@@ -21,7 +21,9 @@ defp deps do
 end
 ```
 
-## Install (Claude Code)
+## Install
+
+### Claude Code
 
 Copy the skill directory into your Claude Code skills folder — either user-level (available in every project) or project-level:
 
@@ -43,7 +45,24 @@ Then, in any Elixir project that has the `code_story` dev dep:
 
 The skill will ask how to run the call and at what detail level, capture the trace, and report what it found. See [`claude/code-story-tell/EXAMPLES.md`](claude/code-story-tell/EXAMPLES.md) for a full worked run.
 
-## What it does (Claude version)
+### Codex
+
+```bash
+git clone https://github.com/angeleah/code_story_skills.git
+
+# user-level — $CODEX_HOME defaults to ~/.codex:
+cp -r code_story_skills/codex/code-story-tell "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+The Codex skill has implicit invocation turned off, so name it explicitly:
+
+```
+$code-story-tell MyApp.Orders.process_order(1)
+```
+
+See [`codex/README.md`](codex/README.md) for details.
+
+## What it does
 
 1. **Warns you** that a trace records real values before anything runs.
 2. **Asks** how to run the target (you give a call · it finds one · from a test) and the detail level (`:outline` / `:short_story` / `:novel` — also the data-exposure knob).
